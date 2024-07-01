@@ -26,10 +26,10 @@ export const  App = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       TG.setItem("count", count)
-      TG.setItem("energy", count)
+      TG.setItem("energy", energy)
     }, 3000);
     return () => clearInterval(interval);
-  }, [count]);
+  }, [count, energy]);
   
 
 
