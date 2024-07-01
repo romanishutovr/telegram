@@ -42,6 +42,8 @@ export const  App = () => {
     return () => clearInterval(interval);
   }, [energy]);
 
+  console.log(TG)
+
   
 
 
