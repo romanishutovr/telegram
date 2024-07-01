@@ -22,6 +22,7 @@ export const  App = () => {
   return (
     <div className="App">
       <p onClick={onClose}>close</p>
+      <p>{TG.initDataUnsafe?.user?.name}</p>
     </div>
   );
 }
