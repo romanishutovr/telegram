@@ -32,9 +32,8 @@ export const  App = () => {
 
 
   useEffect(() => {
-    const interval = setInterval(() => {
-    }, 1000);
-    return () => clearInterval(interval);
+    TG.CloudStorage.setItem("count", count)
+    TG.CloudStorage.setItem("energy", energy)
   }, [count, energy]);
   
 
