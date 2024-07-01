@@ -33,7 +33,7 @@ export const  App = () => {
         setEnergy(value)
       })
     }
-  },[TG.initDataUnsafe?.user?.username])
+  },[])
 
   useEffect(() => {
     const interval = setInterval(() => {
