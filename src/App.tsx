@@ -35,7 +35,7 @@ export const  App = () => {
     const interval = setInterval(() => {
       TG.CloudStorage.setItem("count", count)
       TG.CloudStorage.setItem("energy", energy)
-    }, 3000);
+    }, 1000);
     return () => clearInterval(interval);
   }, [count, energy]);
   
