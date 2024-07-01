@@ -11,7 +11,6 @@ const TG = window.Telegram.WebApp;
 export const  App = () => {
   const [count, setCount] = useState<number>(0)
   const [energy, setEnergy] = useState<number>(10)
-  const [q,setQ] = useState(false)
   const onClick = useCallback(() => {
     if(energy === 0) return
     setCount(count + 1)
@@ -23,18 +22,6 @@ export const  App = () => {
     TG.ready();
   },[])
 
-  useEffect(() => {
-
-      TG.getItem("count").then((value:number) => {
-        if(!value) return 
-        setCount(value)
-      })
-      TG.getItem("energy").then((value:number) => {
-        if(!value) return 
-        setEnergy(value)
-      })
-    
-  },[q])
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -68,7 +55,16 @@ export const  App = () => {
       <p>{count} Yojji coins</p>
       <p>{energy} / 10 energy</p>
       <img onClick={onClick}  style={{width:"50px", height:"50px", objectFit:"cover"}}  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7nffFy7ZLnQkFmjKFD8cPi9QeBwtmemhdJQ&s" alt="" />
-        <p onClick={()=>setQ(true)}>qqq</p>
+        <p onClick={()=>{
+          TG.getItem("count").then((value:number) => {
+            if(!value) return 
+            setCount(value)
+          })
+          TG.getItem("energy").then((value:number) => {
+            if(!value) return 
+            setEnergy(value)
+          })
+        }}>qqq</p>
     </div>
   );
 }
