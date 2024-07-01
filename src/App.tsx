@@ -22,18 +22,6 @@ export const  App = () => {
     TG.ready();
   },[])
 
-  useEffect(() => {
-    if(TG.initDataUnsafe?.user?.username) {
-      TG.getItem("count").then((value:number) => {
-        if(!value) return 
-        setCount(value)
-      })
-      TG.getItem("energy").then((value:number) => {
-        if(!value) return 
-        setEnergy(value)
-      })
-    }
-  },[])
 
   useEffect(() => {
     const interval = setInterval(() => {
