@@ -56,14 +56,14 @@ export const  App = () => {
       <p>{energy} / 10 energy</p>
       <img onClick={onClick}  style={{width:"50px", height:"50px", objectFit:"cover"}}  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7nffFy7ZLnQkFmjKFD8cPi9QeBwtmemhdJQ&s" alt="" />
         <p onClick={()=>{
-          TG.getItem("count").then((value:number) => {
+          TG.getItem("count", (value:number)=> {
             if(!value) return 
-            setCount(value)
-          })
-          TG.getItem("energy").then((value:number) => {
+          setEnergy(value)
+        })
+          TG.getItem("energy", (value:number)=> {
             if(!value) return 
-            setEnergy(value)
-          })
+          setEnergy(value)
+        })
         }}>qqq</p>
     </div>
   );
