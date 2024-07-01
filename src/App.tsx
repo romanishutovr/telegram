@@ -20,6 +20,14 @@ export const  App = () => {
 
   useEffect(() => {
     TG.ready();
+    TG.CloudStorage.getItem("count", (q:null,value:number)=> {
+      if(!value) return 
+    setCount(Number(value))
+  })
+    TG.CloudStorage.getItem("energy", (q:null,value:number)=> {
+      if(!value) return 
+    setEnergy(Number(value))
+  })
   },[])
 
 
@@ -42,7 +50,7 @@ export const  App = () => {
     return () => clearInterval(interval);
   }, [energy]);
 
-  console.log(TG)
+
 
   
 
@@ -57,16 +65,6 @@ export const  App = () => {
       <p>{count} Yojji coins</p>
       <p>{energy} / 10 energy</p>
       <img onClick={onClick}  style={{width:"50px", height:"50px", objectFit:"cover"}}  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7nffFy7ZLnQkFmjKFD8cPi9QeBwtmemhdJQ&s" alt="" />
-        <p onClick={()=>{
-          TG.CloudStorage.getItem("count", (q:null,value:number)=> {
-            if(!value) return 
-          setCount(value)
-        })
-          TG.CloudStorage.getItem("energy", (q:null,value:number)=> {
-            if(!value) return 
-          setEnergy(value)
-        })
-        }}>qqq</p>
     </div>
   );
 }
