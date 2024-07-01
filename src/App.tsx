@@ -15,6 +15,8 @@ export const  App = () => {
     if(energy === 0) return
     setCount(count + 1)
     setEnergy(energy - 1)
+    TG.CloudStorage.setItem("count", count)
+    TG.CloudStorage.setItem("energy", energy)
   },[count, energy])
 
 
@@ -29,16 +31,6 @@ export const  App = () => {
     setEnergy(Number(value))
   })
   },[])
-
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      TG.CloudStorage.setItem("count", count)
-      TG.CloudStorage.setItem("energy", energy)
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [count, energy]);
-  
 
 
   useEffect(() => {
