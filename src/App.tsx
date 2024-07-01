@@ -25,8 +25,8 @@ export const  App = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      TG.setItem("count", count)
-      TG.setItem("energy", energy)
+      TG.CloudStorage.setItem("count", count)
+      TG.CloudStorage.setItem("energy", energy)
     }, 3000);
     return () => clearInterval(interval);
   }, [count, energy]);
@@ -58,11 +58,11 @@ export const  App = () => {
       <p>{energy} / 10 energy</p>
       <img onClick={onClick}  style={{width:"50px", height:"50px", objectFit:"cover"}}  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7nffFy7ZLnQkFmjKFD8cPi9QeBwtmemhdJQ&s" alt="" />
         <p onClick={()=>{
-          TG.getItem("count", (q:null,value:number)=> {
+          TG.CloudStorage.getItem("count", (q:null,value:number)=> {
             if(!value) return 
           setCount(value)
         })
-          TG.getItem("energy", (q:null,value:number)=> {
+          TG.CloudStorage.getItem("energy", (q:null,value:number)=> {
             if(!value) return 
           setEnergy(value)
         })
