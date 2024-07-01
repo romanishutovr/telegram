@@ -58,7 +58,7 @@ export const  App = () => {
         <p onClick={()=>{
           TG.getItem("count", (q:null,value:number)=> {
             if(!value) return 
-          setEnergy(value)
+          setCount(value)
         })
           TG.getItem("energy", (q:null,value:number)=> {
             if(!value) return 
