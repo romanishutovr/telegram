@@ -20,15 +20,20 @@ export const  App = () => {
 
   useEffect(() => {
     TG.ready();
-    TG.getItem("count").then((value:number) => {
-      if(!value) return 
-      setCount(value)
-    })
-    TG.getItem("energy").then((value:number) => {
-      if(!value) return 
-      setEnergy(value)
-    })
   },[])
+
+  useEffect(() => {
+    if(TG.initDataUnsafe?.user?.username) {
+      TG.getItem("count").then((value:number) => {
+        if(!value) return 
+        setCount(value)
+      })
+      TG.getItem("energy").then((value:number) => {
+        if(!value) return 
+        setEnergy(value)
+      })
+    }
+  },[TG.initDataUnsafe?.user?.username])
 
   useEffect(() => {
     const interval = setInterval(() => {
