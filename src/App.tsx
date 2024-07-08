@@ -3,65 +3,58 @@ import { useDispatch, useSelector } from "react-redux";
 import { addTodos, decrement, increment, removeTodos } from "./store/toolkitSlice";
 import ReactPlayer from 'react-player/lazy'
 
-// declare global {
-//   interface Window {
-//     Telegram: any;
-//   }
-// }
-
-// const TG = window.Telegram.WebApp;
-
-export const  App = () => {
-  // const [count, setCount] = useState<number>(0)
-  // const [energy, setEnergy] = useState<number>(10)
-  // const onClick = useCallback(() => {
-  //   if(energy === 0) return
-  //   setCount(count + 1)
-  //   setEnergy(energy - 1)
-    // TG.CloudStorage.setItem("count", count)
-    // TG.CloudStorage.setItem("energy", energy)
-  // },[count, energy])
-
-
-  // useEffect(() => {
-  //   TG.ready();
-  //   TG.CloudStorage.getItem("count", (q:null,value:number)=> {
-  //     if(!value) return 
-  //   setCount(Number(value))
-  // })
-  //   TG.CloudStorage.getItem("energy", (q:null,value:number)=> {
-  //     if(!value) return 
-  //   setEnergy(Number(value))
-  // })
-  // },[])
-
-
-// setInterval(() => {
-      // TG.CloudStorage.setItem("count", count)
-      // TG.CloudStorage.setItem("energy", energy)
-    // }, 1000);
-
-  
-
-
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     if(energy < 10) {
-  //       setEnergy(energy + 1)
-  //     }
-  //   }, 1000);
-  //   return () => clearInterval(interval);
-  // }, [energy]);
-
-
-const asyncTodo =  () => {
-  return async (dispatch: (action: unknown) => Promise<void>): Promise<void> => {
-    setTimeout(() => {
-      dispatch(addTodos("Async todo"))
-    }, 2000);
-  
+declare global {
+  interface Window {
+    Telegram: any;
   }
 }
+
+const TG = window.Telegram.WebApp;
+
+export const  App = () => {
+  const [countq, setCount] = useState<number>(0)
+  const [energy, setEnergy] = useState<number>(10)
+  const onClick = useCallback(() => {
+    if(energy === 0) return
+    setCount(countq + 1)
+    setEnergy(energy - 1)
+    TG.CloudStorage.setItem("count", countq)
+    TG.CloudStorage.setItem("energy", energy)
+  },[countq, energy])
+
+
+  useEffect(() => {
+    TG.ready();
+    TG.CloudStorage.getItem("count", (q:null,value:number)=> {
+      if(!value) return 
+    setCount(Number(value))
+  })
+    TG.CloudStorage.getItem("energy", (q:null,value:number)=> {
+      if(!value) return 
+    setEnergy(Number(value))
+  })
+  },[])
+
+
+setInterval(() => {
+      TG.CloudStorage.setItem("count", countq)
+      TG.CloudStorage.setItem("energy", energy)
+    }, 1000);
+
+  
+
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if(energy < 10) {
+        setEnergy(energy + 1)
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [energy]);
+
+
+
   
 
 
@@ -73,13 +66,13 @@ const dispatch = useDispatch()
 
   return (
     <div style={{display:"flex", flexDirection:"column", alignItems:"center", gap:"20px", background:"white"}}>
-      {/* <div style={{display:"flex", flexDirection:"row" }}> */}
-      {/* <p>{TG.initDataUnsafe?.user?.username}</p> */}
-      {/* <img style={{width:"50px", height:"50px", objectFit:"cover"}} src={TG.initDataUnsafe?.user?.photo_url} alt="" /> */}
-      {/* </div> */}
-      {/* <p>{count} Yojji coins</p> */}
-      {/* <p>{energy} / 10 energy</p> */}
-      {/* <img onClick={onClick}  style={{width:"50px", height:"50px", objectFit:"cover"}}  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7nffFy7ZLnQkFmjKFD8cPi9QeBwtmemhdJQ&s" alt="" /> */}
+      <div style={{display:"flex", flexDirection:"row" }}>
+      <p>{TG.initDataUnsafe?.user?.username}</p>
+      <img style={{width:"50px", height:"50px", objectFit:"cover"}} src={TG.initDataUnsafe?.user?.photo_url} alt="" />
+      </div>
+      <p>{countq} Yojji coins</p>
+      <p>{energy} / 10 energy</p>
+      <img onClick={onClick}  style={{width:"50px", height:"50px", objectFit:"cover"}}  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7nffFy7ZLnQkFmjKFD8cPi9QeBwtmemhdJQ&s" alt="" />
 
       <p>{count}</p>
       <button onClick={()=>dispatch(increment())}> + </button>
