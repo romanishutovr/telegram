@@ -81,7 +81,9 @@ export const App = () => {
         kraken: state.krakenData[symbol]?.last || null,
         whitebit: state.whitebitData[symbol]?.last || null,
         priceDifference: prices.length > 1 ? maxPrice - minPrice : null,
-        priceDifferencePercentage: prices.length > 1 ? ((maxPrice - minPrice) / minPrice) * 100 : null
+        priceDifferencePercentage: prices.length > 1 ? ((maxPrice - minPrice) / minPrice) * 100 : null,
+        minPrice,
+        maxPrice
       };
     });
     setTableState(result);
@@ -112,9 +114,48 @@ export const App = () => {
               .map((item: any) => (
                 <TableRow>
                   <TableCell>{item.name}</TableCell>
-                  <TableCell>{item.binance}</TableCell>
-                  <TableCell>{item.kraken}</TableCell>
-                  <TableCell>{item.whitebit}</TableCell>
+                  <TableCell
+                    sx={{
+                      ...(item.maxPrice === item.binance && {
+                        background: "green !important",
+                        color: "white"
+                      }),
+                      ...(item.minPrice === item.binance && {
+                        background: "red !important",
+                        color: "white"
+                      })
+                    }}
+                  >
+                    {item.binance}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      ...(item.maxPrice === item.kraken && {
+                        background: "green",
+                        color: "white"
+                      }),
+                      ...(item.minPrice === item.kraken && {
+                        background: "red",
+                        color: "white"
+                      })
+                    }}
+                  >
+                    {item.kraken}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      ...(item.maxPrice === item.whitebit && {
+                        background: "green",
+                        color: "white"
+                      }),
+                      ...(item.minPrice === item.whitebit && {
+                        background: "red",
+                        color: "white"
+                      })
+                    }}
+                  >
+                    {item.whitebit}
+                  </TableCell>
                   <TableCell>{item.priceDifference}</TableCell>
                   <TableCell>{item.priceDifferencePercentage}</TableCell>
                 </TableRow>
