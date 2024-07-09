@@ -1,101 +1,126 @@
-import { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addTodos, decrement, increment, removeTodos } from "./store/toolkitSlice";
-import ReactPlayer from 'react-player/lazy'
-
+import { useEffect, useState } from "react";
+// import { useDispatch} from "react-redux";
+// import { addTodos, decrement, increment, removeTodos } from "./store/toolkitSlice";
+// import axios from "axios";
+import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Box } from "@mui/material";
+// or
+import { CircularProgress } from "@mui/material";
+import ccxt from "ccxt";
+// (async function () {
+//   let kraken    = new ccxt.kraken ()
+// console.log (kraken, await kraken.fetchTickers())
+// }) ()
 declare global {
   interface Window {
     Telegram: any;
   }
 }
 
-const TG = window.Telegram.WebApp;
+// const TG = window.Telegram.WebApp;
 
-export const  App = () => {
-  const [countq, setCount] = useState<number>(0)
-  const [energy, setEnergy] = useState<number>(10)
-  const onClick = useCallback(() => {
-    if(energy === 0) return
-    setCount(countq + 1)
-    setEnergy(energy - 1)
-    TG.CloudStorage.setItem("count", countq)
-    TG.CloudStorage.setItem("energy", energy)
-  },[countq, energy])
+export const App = () => {
+  // const count = useSelector((state:any) => state.toolkit.count)
+  // const todos = useSelector((state:any) => state.toolkit.todos)
+  // const [newTodoName, setNewTodoName] = useState<string>("2313")
 
+  // const dispatch = useDispatch()
+  // const q = apiClient.get("https://pro-api.coinmarketcap.com/v1/exchange/market-pairs/latest")
+  const [state, setState] = useState<any>(null);
+  const [tableState, setTableState] = useState<any>([]);
+  const [loader, setLoader] = useState<boolean>(true);
+  let kraken = new ccxt.kraken();
+  let binance = new ccxt.binance();
+  let whitebit = new ccxt.whitebit();
 
-  useEffect(() => {
-    TG.ready();
-    TG.CloudStorage.getItem("count", (q:null,value:number)=> {
-      if(!value) return 
-    setCount(Number(value))
-  })
-    TG.CloudStorage.getItem("energy", (q:null,value:number)=> {
-      if(!value) return 
-    setEnergy(Number(value))
-  })
-  },[])
+  const getData = async () => {
+    setLoader(true);
+    const krakenData = await kraken.fetchTickers();
+    const binanceData = await binance.fetchTickers();
+    const whitebitData = await whitebit.fetchTickers();
 
+    const filterDataByUSDT = (data: any) => {
+      const result: any = {};
 
-setInterval(() => {
-      TG.CloudStorage.setItem("count", countq)
-      TG.CloudStorage.setItem("energy", energy)
-    }, 1000);
-
-  
-
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if(energy < 10) {
-        setEnergy(energy + 1)
+      for (const exchange in data) {
+        result[exchange] = {};
+        for (const pair in data[exchange]) {
+          if (data[exchange].hasOwnProperty(pair) && pair.includes("/USDT")) {
+            result[exchange][pair] = data[exchange][pair];
+          }
+        }
       }
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [energy]);
 
+      return result;
+    };
 
+    setState(filterDataByUSDT({ krakenData, binanceData, whitebitData }));
+  };
 
-  
+  useEffect(() => {
+    getData();
+  }, []);
 
+  useEffect(() => {
+    if (!state) return;
+    const symbols = Object.keys(state.binanceData);
 
-const count = useSelector((state:any) => state.toolkit.count)
-const todos = useSelector((state:any) => state.toolkit.todos)
-const [newTodoName, setNewTodoName] = useState<string>("2313")
+    const uniqueSymbols = [...new Set(symbols)];
 
-const dispatch = useDispatch()
+    const result = uniqueSymbols.map((symbol) => {
+      const prices = [state.binanceData[symbol]?.last, state.krakenData[symbol]?.last, state.whitebitData[symbol]?.last]
+        .map((last) => parseFloat(last))
+        .filter((last) => !isNaN(last));
 
-  return (
-    <div style={{display:"flex", flexDirection:"column", alignItems:"center", gap:"20px", background:"white"}}>
-      <div style={{display:"flex", flexDirection:"row" }}>
-      <p>{TG.initDataUnsafe?.user?.username}</p>
-      <img style={{width:"50px", height:"50px", objectFit:"cover"}} src={TG.initDataUnsafe?.user?.photo_url} alt="" />
-      </div>
-      <p>{countq} Yojji coins</p>
-      <p>{energy} / 10 energy</p>
-      <img onClick={onClick}  style={{width:"50px", height:"50px", objectFit:"cover"}}  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7nffFy7ZLnQkFmjKFD8cPi9QeBwtmemhdJQ&s" alt="" />
+      const maxPrice = Math.max(...prices);
+      const minPrice = Math.min(...prices);
 
-      <p>{count}</p>
-      <button onClick={()=>dispatch(increment())}> + </button>
-      <button onClick={()=>dispatch(decrement())}> - </button>
-      <div>
+      return {
+        name: symbol,
+        binance: state.binanceData[symbol]?.last || null,
+        kraken: state.krakenData[symbol]?.last || null,
+        whitebit: state.whitebitData[symbol]?.last || null,
+        priceDifference: prices.length > 1 ? maxPrice - minPrice : null,
+        priceDifferencePercentage: prices.length > 1 ? ((maxPrice - minPrice) / minPrice) * 100 : null
+      };
+    });
+    setTableState(result);
+    setLoader(false);
+  }, [state]);
 
-      <input type="text" placeholder="Add todo" value={newTodoName} onChange={(e)=>setNewTodoName(e.target.value)} />
-      <button onClick={()=>{dispatch(addTodos(newTodoName))
-    setNewTodoName("")}}> Add </button>
-      </div>
-
-      {todos.map((todo:string, index:number) => 
-      <div>
-
-      <p>{todo}</p>
-      <button onClick={()=>dispatch(removeTodos(todo))}> x </button>
-      </div>
-      )
-    }
-<ReactPlayer url='https://www.youtube.com/watch?v=3omZJqQC8u0&ab_channel=FCMetalist1925' />
-
-    </div>
-
-
+  return loader ? (
+    <Box sx={{ width: "100%", height: "100%" }}>
+      <CircularProgress sx={{ fontSize: "150px" }} />
+    </Box>
+  ) : (
+    <>
+      <TableContainer>
+        <Table stickyHeader>
+          <TableHead>
+            <TableRow>
+              <TableCell>Pair name</TableCell>
+              <TableCell>Binance</TableCell>
+              <TableCell>Kraken</TableCell>
+              <TableCell>Whitebit</TableCell>
+              <TableCell>price Difference</TableCell>
+              <TableCell>Percentage difference</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {tableState
+              .sort((a: any, b: any) => b.priceDifferencePercentage - a.priceDifferencePercentage)
+              .map((item: any) => (
+                <TableRow>
+                  <TableCell>{item.name}</TableCell>
+                  <TableCell>{item.binance}</TableCell>
+                  <TableCell>{item.kraken}</TableCell>
+                  <TableCell>{item.whitebit}</TableCell>
+                  <TableCell>{item.priceDifference}</TableCell>
+                  <TableCell>{item.priceDifferencePercentage}</TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </>
   );
-}
+};
