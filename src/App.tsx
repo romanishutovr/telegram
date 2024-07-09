@@ -68,12 +68,7 @@ export const App = () => {
     const uniqueSymbols = [...new Set(symbols)];
 
     const result = uniqueSymbols.map((symbol) => {
-      const prices = [
-        state.binanceData[symbol]?.last,
-        state.krakenData[symbol]?.last,
-        state.whitebitData[symbol]?.last,
-        state.bingxData[symbol]?.last
-      ]
+      const prices = [state.binanceData[symbol]?.last, state.krakenData[symbol]?.last, state.whitebitData[symbol]?.last]
         .map((last) => parseFloat(last))
         .filter((last) => !isNaN(last));
 
