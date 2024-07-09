@@ -68,7 +68,12 @@ export const App = () => {
     const uniqueSymbols = [...new Set(symbols)];
 
     const result = uniqueSymbols.map((symbol) => {
-      const prices = [state.binanceData[symbol]?.last, state.krakenData[symbol]?.last, state.whitebitData[symbol]?.last]
+      const prices = [
+        state.binanceData[symbol]?.last,
+        state.krakenData[symbol]?.last,
+        state.whitebitData[symbol]?.last,
+        state.bingxData[symbol]?.last
+      ]
         .map((last) => parseFloat(last))
         .filter((last) => !isNaN(last));
 
@@ -80,6 +85,7 @@ export const App = () => {
         binance: state.binanceData[symbol]?.last || null,
         kraken: state.krakenData[symbol]?.last || null,
         whitebit: state.whitebitData[symbol]?.last || null,
+        bingx: state.bingxData[symbol]?.last || null,
         priceDifference: prices.length > 1 ? maxPrice - minPrice : null,
         priceDifferencePercentage: prices.length > 1 ? ((maxPrice - minPrice) / minPrice) * 100 : null
       };
@@ -102,6 +108,7 @@ export const App = () => {
               <TableCell>Binance</TableCell>
               <TableCell>Kraken</TableCell>
               <TableCell>Whitebit</TableCell>
+              <TableCell>bingx</TableCell>
               <TableCell>price Difference</TableCell>
               <TableCell>Percentage difference</TableCell>
             </TableRow>
@@ -115,6 +122,7 @@ export const App = () => {
                   <TableCell>{item.binance}</TableCell>
                   <TableCell>{item.kraken}</TableCell>
                   <TableCell>{item.whitebit}</TableCell>
+                  <TableCell>{item.bingx}</TableCell>
                   <TableCell>{item.priceDifference}</TableCell>
                   <TableCell>{item.priceDifferencePercentage}</TableCell>
                 </TableRow>
