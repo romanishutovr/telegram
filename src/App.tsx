@@ -1,4 +1,4 @@
-import { Button, Stack } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 import { useEffect } from "react";
 
 declare global {
@@ -15,9 +15,13 @@ export const App = () => {
   }, []);
 
   return (
-    <Stack sx={{ width: "500px", height: "100vh", background: "red" }}>
+    <Stack sx={{ width: "100vh", height: "100vh" }}>
       <Button onClick={() => TG.close()}>X</Button>
-      <Button onClick={() => console.log(TG)}>click</Button>
+      <Stack>
+        <Typography>{TG?.initDataUnsafe?.user?.username}</Typography>
+        <Typography>{TG?.initDataUnsafe?.user?.id}</Typography>
+        <img src={TG?.initDataUnsafe?.user?.photo_url} width="50px" height="50px" alt="" />
+      </Stack>
     </Stack>
   );
 };
