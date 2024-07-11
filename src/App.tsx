@@ -20,7 +20,7 @@ export const App = () => {
       <Stack>
         <Typography>{TG?.initDataUnsafe?.user?.username}</Typography>
         <Typography>{TG?.initDataUnsafe?.user?.id}</Typography>
-        <img src={TG?.initDataUnsafe?.user?.photo_url} width="50px" height="50px" alt="" />
+        <Typography>{TG?.initDataUnsafe?.user?.photo_url}</Typography>
       </Stack>
     </Stack>
   );
