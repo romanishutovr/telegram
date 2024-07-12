@@ -4,7 +4,7 @@ import { initializeApp } from "firebase/app";
 import { getFirestore, collection } from "firebase/firestore";
 import { doc, setDoc } from "firebase/firestore";
 import { TonConnectButton } from "@tonconnect/ui-react";
-import { useTonAddress } from "@tonconnect/ui-react";
+import { useTonAddress, useTonWallet } from "@tonconnect/ui-react";
 
 declare global {
   interface Window {
@@ -46,13 +46,22 @@ export const App = () => {
 
   const userFriendlyAddress = useTonAddress();
   const rawAddress = useTonAddress(false);
+  const wallet = useTonWallet();
 
   return (
     <Stack sx={{ width: "100vh", height: "100vh" }}>
-      <div>
-        <span>User-friendly address: {userFriendlyAddress}</span>
-        <span>Raw address: {rawAddress}</span>
-      </div>
+      {userFriendlyAddress && (
+        <div>
+          <span>User-friendly address: {userFriendlyAddress}</span>
+          <span>Raw address: {rawAddress}</span>
+        </div>
+      )}
+      {wallet && (
+        <div>
+          <span>Connected wallet: {wallet.name}</span>
+          <span>Device: {wallet.device.appName}</span>
+        </div>
+      )}
       <Button onClick={() => TG.close()}>X</Button>
 
       <Button onClick={() => addUser()}>213123</Button>
