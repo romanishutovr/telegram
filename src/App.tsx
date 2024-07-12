@@ -4,6 +4,7 @@ import { initializeApp } from "firebase/app";
 import { getFirestore, collection } from "firebase/firestore";
 import { doc, setDoc } from "firebase/firestore";
 import { TonConnectButton } from "@tonconnect/ui-react";
+import { useTonAddress } from "@tonconnect/ui-react";
 
 declare global {
   interface Window {
@@ -43,8 +44,15 @@ export const App = () => {
     });
   }, [db]);
 
+  const userFriendlyAddress = useTonAddress();
+  const rawAddress = useTonAddress(false);
+
   return (
     <Stack sx={{ width: "100vh", height: "100vh" }}>
+      <div>
+        <span>User-friendly address: {userFriendlyAddress}</span>
+        <span>Raw address: {rawAddress}</span>
+      </div>
       <Button onClick={() => TG.close()}>X</Button>
 
       <Button onClick={() => addUser()}>213123</Button>
