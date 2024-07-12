@@ -9,7 +9,12 @@ const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement)
 root.render(
   <React.Fragment>
     <Provider store={store}>
-      <TonConnectUIProvider manifestUrl="https://telegram-react-test.netlify.app/tonconnect-manifest.json">
+      <TonConnectUIProvider
+        actionsConfiguration={{
+          twaReturnUrl: "https://t.me/TapalkaCryptoBot>"
+        }}
+        manifestUrl="https://telegram-react-test.netlify.app/tonconnect-manifest.json"
+      >
         <App />
       </TonConnectUIProvider>
     </Provider>
