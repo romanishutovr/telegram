@@ -58,7 +58,6 @@ export const App = () => {
       )}
       {wallet && (
         <div>
-          <span>Connected wallet: {wallet.name}</span>
           <span>Device: {wallet.device.appName}</span>
         </div>
       )}
