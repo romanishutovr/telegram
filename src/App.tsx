@@ -48,6 +48,7 @@ export const App = () => {
   const userFriendlyAddress = useTonAddress();
   const rawAddress = useTonAddress(false);
   const wallet = useTonWallet();
+  console.log(wallet);
 
   return (
     <Stack sx={{ width: "100vh", height: "100vh" }}>
