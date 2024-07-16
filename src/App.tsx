@@ -3,8 +3,7 @@ import { useCallback, useEffect } from "react";
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection } from "firebase/firestore";
 import { doc, setDoc } from "firebase/firestore";
-import { TonConnectButton } from "@tonconnect/ui-react";
-import { useTonAddress, useTonWallet } from "@tonconnect/ui-react";
+import { useTonAddress, useTonWallet, TonConnectButton } from "@tonconnect/ui-react";
 
 declare global {
   interface Window {
@@ -16,13 +15,20 @@ const TG = window.Telegram.WebApp;
 
 export const App = () => {
   const clientInitConfig = {
-    apiKey: "AIzaSyBWCdZrnDtzHwWlieXGf0lmstzUEtKrZiM",
-    authDomain: "test-1b4bd.firebaseapp.com",
-    projectId: "test-1b4bd",
-    storageBucket: "test-1b4bd.appspot.com",
-    messagingSenderId: "904100009920",
-    appId: "1:904100009920:web:e45388568e151df67fda25"
+    // apiKey: "AIzaSyBWCdZrnDtzHwWlieXGf0lmstzUEtKrZiM",
+    // authDomain: "test-1b4bd.firebaseapp.com",
+    // projectId: "test-1b4bd",
+    // storageBucket: "test-1b4bd.appspot.com",
+    // messagingSenderId: "904100009920",
+    // appId: "1:904100009920:web:e45388568e151df67fda25"
+    apiKey: process.env.REACT_APP_FIREBASE_PUBLIC_API_KEY,
+    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_FIREBASE_APP_ID
   };
+  console.log(clientInitConfig);
 
   const firebaseApp = initializeApp(clientInitConfig);
   const db = getFirestore(firebaseApp);
