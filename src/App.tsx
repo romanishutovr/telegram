@@ -3,7 +3,7 @@ import { useCallback, useEffect } from "react";
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection } from "firebase/firestore";
 import { doc, setDoc } from "firebase/firestore";
-import { useTonAddress, useTonWallet, TonConnectButton } from "@tonconnect/ui-react";
+import { useTonAddress, useTonWallet, TonConnectButton, useTonConnectUI } from "@tonconnect/ui-react";
 
 declare global {
   interface Window {
@@ -27,6 +27,23 @@ export const App = () => {
 
   const firebaseApp = initializeApp(clientInitConfig);
   const db = getFirestore(firebaseApp);
+  const [tonConnectUI, setOptions] = useTonConnectUI();
+
+  const myTransaction = {
+    validUntil: Math.floor(Date.now() / 1000) + 60, // 60 sec
+    messages: [
+      {
+        address: "EQBBJBB3HagsujBqVfqeDUPJ0kXjgTPLWPFFffuNXNiJL0aA",
+        amount: "20000000"
+        // stateInit: "base64bocblahblahblah==" // just for instance. Replace with your transaction initState or remove
+      },
+      {
+        address: "EQDmnxDMhId6v1Ofg_h5KR5coWlFG6e86Ro3pc7Tq4CA0-Jn",
+        amount: "60000000"
+        // payload: "base64bocblahblahblah==" // just for instance. Replace with your transaction payload or remove
+      }
+    ]
+  };
 
   useEffect(() => {
     TG.expand();
@@ -52,6 +69,7 @@ export const App = () => {
 
   return (
     <Stack sx={{ width: "100vh", height: "100vh" }}>
+      <p onClick={() => tonConnectUI.sendTransaction(myTransaction)}>send</p>
       {userFriendlyAddress && (
         <div>
           <span>User-friendly address: {userFriendlyAddress}</span>
