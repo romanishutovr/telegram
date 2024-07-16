@@ -28,6 +28,7 @@ export const App = () => {
   const firebaseApp = initializeApp(clientInitConfig);
   const db = getFirestore(firebaseApp);
   const [tonConnectUI, setOptions] = useTonConnectUI();
+  console.log(setOptions);
 
   const myTransaction = {
     validUntil: Math.floor(Date.now() / 1000) + 60, // 60 sec
