@@ -58,12 +58,7 @@ export const App = () => {
   const [currentTab, setCurrentTab] = useState("Home");
 
   return (
-    <Stack
-      sx={{ width: "100vh", height: "100vh", padding: "5px", overflow: "hidden" }}
-      direction="column"
-      gap="20px"
-      justifyContent="space-between"
-    >
+    <Stack sx={{ padding: "5px", overflow: "hidden" }} direction="column" gap="20px" justifyContent="space-between">
       <Stack direction="column" alignItems="center" gap="20px">
         <Stack direction="row" alignItems="center" justifyContent="space-between" gap="20px">
           <Typography>name</Typography>
