@@ -1,9 +1,13 @@
 import { Button, Stack, Typography } from "@mui/material";
-import { useCallback, useEffect } from "react";
-import { initializeApp } from "firebase/app";
-import { getFirestore, collection } from "firebase/firestore";
-import { doc, setDoc } from "firebase/firestore";
-import { useTonAddress, useTonWallet, TonConnectButton, useTonConnectUI } from "@tonconnect/ui-react";
+import { useEffect, useState } from "react";
+import { useTonAddress, useTonWallet, TonConnectButton } from "@tonconnect/ui-react";
+import { userService } from "./core/index";
+import { ChildCareIcon } from "./icons";
+import { Faq } from "./main-tabs/Faq";
+import { Mine } from "./main-tabs/Mine";
+import { Home } from "./main-tabs/Home";
+import { Referrals } from "./main-tabs/Referrals";
+import { MainTabs } from "./main-tabs/MainTabs";
 
 declare global {
   interface Window {
@@ -11,86 +15,101 @@ declare global {
   }
 }
 
-const TG = window.Telegram.WebApp;
+// const TG = window.Telegram.WebApp;
 
 export const App = () => {
-  const clientInitConfig = {
-    apiKey: process.env.REACT_APP_FIREBASE_PUBLIC_API_KEY,
-    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-    storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-    appId: process.env.REACT_APP_FIREBASE_APP_ID
-  };
-  console.log(TG);
-  console.log(window.Telegram);
+  // console.log(TG);
+  // console.log(window.Telegram);
 
-  const firebaseApp = initializeApp(clientInitConfig);
-  const db = getFirestore(firebaseApp);
-  const [tonConnectUI, setOptions] = useTonConnectUI();
-  console.log(setOptions);
+  // const [tonConnectUI, setOptions] = useTonConnectUI();
+  // console.log(setOptions);
 
-  const myTransaction = {
-    validUntil: Math.floor(Date.now() / 1000) + 60, // 60 sec
-    messages: [
-      {
-        address: "EQBBJBB3HagsujBqVfqeDUPJ0kXjgTPLWPFFffuNXNiJL0aA",
-        amount: "20000000"
-        // stateInit: "base64bocblahblahblah==" // just for instance. Replace with your transaction initState or remove
-      },
-      {
-        address: "EQDmnxDMhId6v1Ofg_h5KR5coWlFG6e86Ro3pc7Tq4CA0-Jn",
-        amount: "60000000"
-        // payload: "base64bocblahblahblah==" // just for instance. Replace with your transaction payload or remove
-      }
-    ]
+  // const myTransaction = {
+  //   validUntil: Math.floor(Date.now() / 1000) + 60, // 60 sec
+  //   messages: [
+  //     {
+  //       address: "EQBBJBB3HagsujBqVfqeDUPJ0kXjgTPLWPFFffuNXNiJL0aA",
+  //       amount: "20000000"
+  //       // stateInit: "base64bocblahblahblah==" // just for instance. Replace with your transaction initState or remove
+  //     },
+  //     {
+  //       address: "EQDmnxDMhId6v1Ofg_h5KR5coWlFG6e86Ro3pc7Tq4CA0-Jn",
+  //       amount: "60000000"
+  //       // payload: "base64bocblahblahblah==" // just for instance. Replace with your transaction payload or remove
+  //     }
+  //   ]
+  // };
+  const check = async () => {
+    const telegram_id = 123;
+    const q = await userService.checkUser(telegram_id);
+    console.log(q);
   };
 
   useEffect(() => {
-    TG.expand();
+    // TG.expand();
+    check();
   }, []);
 
-  const addUser = useCallback(async () => {
-    const usersCollectionRef = collection(db, "users");
-
-    // Create a document reference with the custom ID
-    const customDocRef = doc(usersCollectionRef, "1"); // Use your desired ID here
-
-    // Set the document data, including the ID
-    await setDoc(customDocRef, {
-      id: "1",
-      name: "Los Angele11111"
-    });
-  }, [db]);
-
-  const userFriendlyAddress = useTonAddress();
+  // const userFriendlyAddress = useTonAddress();
   const rawAddress = useTonAddress(false);
   const wallet = useTonWallet();
   console.log(wallet);
 
-  return (
-    <Stack sx={{ width: "100vh", height: "100vh" }}>
-      <p onClick={() => tonConnectUI.sendTransaction(myTransaction)}>send</p>
-      {userFriendlyAddress && (
-        <div>
-          <span>User-friendly address: {userFriendlyAddress}</span>
-          <span>Raw address: {rawAddress}</span>
-        </div>
-      )}
-      {wallet && (
-        <div>
-          <span>Device: {wallet.device.appName}</span>
-        </div>
-      )}
-      <Button onClick={() => TG.close()}>X</Button>
+  const [currentTab, setCurrentTab] = useState("Home");
 
-      <Button onClick={() => addUser()}>213123</Button>
-      <TonConnectButton />
-      <Stack>
-        <Typography>{TG?.initDataUnsafe?.user?.username}</Typography>
-        <Typography>{TG?.initDataUnsafe?.user?.id}</Typography>
-        <Typography>{TG?.initDataUnsafe?.user?.photo_url}</Typography>
+  return (
+    <Stack
+      sx={{ width: "100vh", height: "100vh", padding: "5px", overflow: "hidden" }}
+      direction="column"
+      gap="20px"
+      justifyContent="space-between"
+    >
+      <Stack direction="column" alignItems="center" gap="20px">
+        <Stack direction="row" alignItems="center" justifyContent="space-between" gap="20px">
+          <Typography>name</Typography>
+          {rawAddress ? (
+            <Button variant="contained" size="small">
+              Withdraw/History
+            </Button>
+          ) : (
+            <TonConnectButton />
+          )}
+        </Stack>
+        <Stack direction="row" gap="20px">
+          <Stack
+            direction="row"
+            sx={{ background: "gray", width: "200px", borderRadius: "10px", padding: "10px" }}
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Typography> Profit per hour</Typography>
+            <Stack direction="row" alignItems="center" gap="5px">
+              <Typography>134</Typography>
+              <ChildCareIcon />
+            </Stack>
+          </Stack>
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+            sx={{ background: "gray", width: "200px", borderRadius: "10px", padding: "10px" }}
+          >
+            <Typography>Balance</Typography>
+            <Stack direction="row" alignItems="center" gap="5px">
+              <Typography>134</Typography>
+              <ChildCareIcon />
+            </Stack>
+          </Stack>
+        </Stack>
+        {currentTab === "Home" && <Home />}
+        {currentTab === "Mine" && <Mine />}
+        {currentTab === "Referrals" && <Referrals />}
+        {currentTab === "Faq" && <Faq />}
       </Stack>
+      <MainTabs setCurrentTab={setCurrentTab} />
+      {/* <TonConnectButton /> */}
+      {/* <Typography>Address: {userFriendlyAddress}</Typography>
+    <Typography>Raw Address: {rawAddress}</Typography> */}
     </Stack>
   );
 };
