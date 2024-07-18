@@ -9,7 +9,7 @@ export const MainTabs: React.FC<IProps> = ({ setCurrentTab }) => {
     <Stack sx={{ width: "100%" }} gap="10px" direction="row" justifyContent="space-between">
       <Stack
         direction="column"
-        sx={{ width: "70px", height: "50px", background: "gray", borderRadius: "10px" }}
+        sx={{ width: "20%", height: "50px", background: "gray", borderRadius: "10px" }}
         alignItems="center"
         onClick={() => setCurrentTab("Home")}
       >
@@ -17,7 +17,7 @@ export const MainTabs: React.FC<IProps> = ({ setCurrentTab }) => {
       </Stack>
       <Stack
         direction="column"
-        sx={{ width: "70px", height: "50px", background: "gray", borderRadius: "10px" }}
+        sx={{ width: "20%", height: "50px", background: "gray", borderRadius: "10px" }}
         alignItems="center"
         onClick={() => setCurrentTab("Mine")}
       >
@@ -25,7 +25,7 @@ export const MainTabs: React.FC<IProps> = ({ setCurrentTab }) => {
       </Stack>
       <Stack
         direction="column"
-        sx={{ width: "70px", height: "50px", background: "gray", borderRadius: "10px" }}
+        sx={{ width: "20%", height: "50px", background: "gray", borderRadius: "10px" }}
         alignItems="center"
         onClick={() => setCurrentTab("Referrals")}
       >
@@ -33,7 +33,7 @@ export const MainTabs: React.FC<IProps> = ({ setCurrentTab }) => {
       </Stack>
       <Stack
         direction="column"
-        sx={{ width: "70px", height: "50px", background: "gray", borderRadius: "10px" }}
+        sx={{ width: "20%", height: "50px", background: "gray", borderRadius: "10px" }}
         alignItems="center"
         onClick={() => setCurrentTab("Faq")}
       >
