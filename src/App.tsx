@@ -58,7 +58,12 @@ export const App = () => {
   const [currentTab, setCurrentTab] = useState("Home");
 
   return (
-    <Stack sx={{ padding: "5px", overflow: "hidden" }} direction="column" gap="20px" justifyContent="space-between">
+    <Stack
+      sx={{ width: "100%", height: "100%", padding: "5px", overflow: "hidden" }}
+      direction="column"
+      gap="20px"
+      justifyContent="space-between"
+    >
       <Stack direction="column" alignItems="center" gap="20px">
         <Stack direction="row" alignItems="center" justifyContent="space-between" gap="20px">
           <Typography>name</Typography>
@@ -73,7 +78,7 @@ export const App = () => {
         <Stack direction="row" gap="20px">
           <Stack
             direction="row"
-            sx={{ background: "gray", width: "200px", borderRadius: "10px", padding: "10px" }}
+            sx={{ background: "gray", width: "405", borderRadius: "10px", padding: "10px" }}
             alignItems="center"
             justifyContent="space-between"
           >
@@ -87,7 +92,7 @@ export const App = () => {
             direction="row"
             alignItems="center"
             justifyContent="space-between"
-            sx={{ background: "gray", width: "200px", borderRadius: "10px", padding: "10px" }}
+            sx={{ background: "gray", width: "40%", borderRadius: "10px", padding: "10px" }}
           >
             <Typography>Balance</Typography>
             <Stack direction="row" alignItems="center" gap="5px">
