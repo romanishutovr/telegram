@@ -1,5 +1,5 @@
 import { Button, Stack, Typography } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   useTonAddress,
   // useTonWallet,
@@ -19,6 +19,13 @@ export const App = () => {
   const rawAddress = useTonAddress(false);
 
   const [tonConnectUI] = useTonConnectUI();
+  const [num, setNum] = useState<null | string>(null);
+  const handleChange = (e: any) => {
+    const isValid = /^\d*\.?\d*$/.test(e.target.value);
+    if (isValid) {
+      setNum(e.target.value);
+    }
+  };
 
   const sendTransaction = async () => {
     try {
@@ -27,7 +34,7 @@ export const App = () => {
         messages: [
           {
             address: "UQBNywGlFc8qWr-Y2X60ggaZAM_ZdkWX6PA3-tcyUx9NEbbn",
-            amount: "10000000"
+            amount: String(Math.round(Number(num) * 1000000000))
           }
         ]
       };
@@ -45,7 +52,17 @@ export const App = () => {
 
   return (
     <Stack
-      sx={{ width: "100vh", height: "100vh", padding: "10px", overflow: "hidden", backgroundColor: "black" }}
+      sx={{
+        width: "100vh",
+        height: "100vh",
+        padding: "10px",
+        overflow: "hidden",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "noRepeat",
+        backgroundImage:
+          "url('https://avatars.mds.yandex.net/get-shedevrum/11917197/img_4d9fb71d3cca11ef82a2fe0d5ff3be7d/orig')"
+      }}
       direction="column"
       gap="20px"
     >
@@ -57,7 +74,7 @@ export const App = () => {
             size="small"
             sx={{ overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" }}
           >
-            {rawAddress}
+            Connected
           </Button>
         ) : (
           <TonConnectButton />
@@ -73,11 +90,15 @@ export const App = () => {
         </Typography>
       </Stack>
 
-      <Button
-        onClick={sendTransaction}
-        sx={{ width: "100px", height: "100px", borderRadius: "9999", backgroundColor: "red" }}
-      >
-        <Typography>Помочь</Typography>
+      <input
+        type="text"
+        value={num || ""}
+        onChange={handleChange}
+        placeholder="Закинь сколько не жалко, принимаем TON"
+      />
+
+      <Button variant="contained" onClick={sendTransaction}>
+        <Typography>Отправить</Typography>
       </Button>
     </Stack>
   );
