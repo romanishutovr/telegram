@@ -3,7 +3,9 @@ import { useEffect } from "react";
 import {
   useTonAddress,
   // useTonWallet,
-  TonConnectButton
+  TonConnectButton,
+  useTonWallet,
+  useTonConnectUI
 } from "@tonconnect/ui-react";
 
 declare global {
@@ -15,52 +17,69 @@ declare global {
 const TG = window.Telegram.WebApp;
 
 export const App = () => {
-  // console.log(TG);
-  // console.log(window.Telegram);
+  const rawAddress = useTonAddress(false);
 
-  // const [tonConnectUI, setOptions] = useTonConnectUI();
-  // console.log(setOptions);
+  const [tonConnectUI] = useTonConnectUI();
 
-  // const myTransaction = {
-  //   validUntil: Math.floor(Date.now() / 1000) + 60, // 60 sec
-  //   messages: [
-  //     {
-  //       address: "EQBBJBB3HagsujBqVfqeDUPJ0kXjgTPLWPFFffuNXNiJL0aA",
-  //       amount: "20000000"
-  //     },
-  //     {
-  //       address: "EQDmnxDMhId6v1Ofg_h5KR5coWlFG6e86Ro3pc7Tq4CA0-Jn",
-  //       amount: "60000000"
-  //     }
-  //   ]
-  // };
+  const sendTransaction = async () => {
+    try {
+      const transaction = {
+        validUntil: Math.floor(Date.now() / 1000) + 3600, // 1 hour expiration
+        messages: [
+          {
+            address: "UQBNywGlFc8qWr-Y2X60ggaZAM_ZdkWX6PA3-tcyUx9NEbbn",
+            amount: "10000000"
+          }
+        ]
+      };
+
+      await tonConnectUI.sendTransaction(transaction);
+      console.log("Transaction sent successfully");
+    } catch (error) {
+      console.error("Failed to send transaction:", error);
+    }
+  };
 
   useEffect(() => {
     TG.expand();
   }, []);
 
-  // const userFriendlyAddress = useTonAddress();
-  const rawAddress = useTonAddress(false);
-  // const wallet = useTonWallet();
-
   return (
     <Stack
-      sx={{ width: "100%", height: "100%", padding: "5px", overflow: "hidden" }}
+      sx={{ width: "100vh", height: "100vh", padding: "10px", overflow: "hidden", backgroundColor: "black" }}
       direction="column"
       gap="20px"
-      justifyContent="space-between"
     >
-      <Stack direction="column" alignItems="center" gap="20px"></Stack>
       <Stack direction="row" alignItems="center" justifyContent="space-between" gap="20px">
-        <Typography>{TG?.initDataUnsafe?.user?.username}</Typography>
+        <Typography sx={{ color: "white" }}>{TG?.initDataUnsafe?.user?.username}</Typography>
         {rawAddress ? (
-          <Button variant="contained" size="small">
+          <Button
+            variant="contained"
+            size="small"
+            sx={{ overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" }}
+          >
             {rawAddress}
           </Button>
         ) : (
           <TonConnectButton />
         )}
       </Stack>
+
+      <Stack>
+        <Typography sx={{ color: "white" }}>
+          Фонд, помогающий людям с лудоманией, занимается поддержкой и реабилитацией людей, страдающих игровой
+          зависимостью. Мы предоставляем психологическую помощь, консультации, и разрабатываем программы восстановления,
+          чтобы помочь нашим подопечным вернуть контроль над своей жизнью. Наша цель — снизить воздействие игровой
+          зависимости на жизнь людей и их семей, содействуя их интеграции в общество.
+        </Typography>
+      </Stack>
+
+      <Button
+        onClick={sendTransaction}
+        sx={{ width: "100px", height: "100px", borderRadius: "9999", backgroundColor: "red" }}
+      >
+        <Typography>Помочь</Typography>
+      </Button>
     </Stack>
   );
 };
