@@ -11,7 +11,7 @@ root.render(
     <Provider store={store}>
       <TonConnectUIProvider
         actionsConfiguration={{
-          twaReturnUrl: "https://t.me/TapalkaCryptoBot>"
+          twaReturnUrl: "https://t.me/CrypovoBlogBot>"
         }}
         manifestUrl="https://telegram-react-test.netlify.app/tonconnect-manifest.json"
       >
