@@ -1,8 +1,10 @@
 import { Button, Stack, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useTonAddress, useTonWallet, TonConnectButton } from "@tonconnect/ui-react";
-import { userService } from "./core/index";
-import { ChildCareIcon } from "./icons";
+import { useEffect } from "react";
+import {
+  useTonAddress,
+  // useTonWallet,
+  TonConnectButton
+} from "@tonconnect/ui-react";
 
 declare global {
   interface Window {
