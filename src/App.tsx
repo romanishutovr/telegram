@@ -4,7 +4,6 @@ import {
   useTonAddress,
   // useTonWallet,
   TonConnectButton,
-  useTonWallet,
   useTonConnectUI
 } from "@tonconnect/ui-react";
 
