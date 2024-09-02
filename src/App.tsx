@@ -53,8 +53,8 @@ export const App = () => {
   return (
     <Stack
       sx={{
-        width: "100vh",
-        height: "100vh",
+        height: "100%",
+        width: "100%",
         padding: "10px",
         overflow: "hidden",
         backgroundSize: "cover",
