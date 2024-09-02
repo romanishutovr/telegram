@@ -39,7 +39,7 @@ export const App = () => {
 
   // const userFriendlyAddress = useTonAddress();
   const rawAddress = useTonAddress(false);
-  const wallet = useTonWallet();
+  // const wallet = useTonWallet();
 
   return (
     <Stack
@@ -50,7 +50,7 @@ export const App = () => {
     >
       <Stack direction="column" alignItems="center" gap="20px"></Stack>
       <Stack direction="row" alignItems="center" justifyContent="space-between" gap="20px">
-        <Typography>name</Typography>
+        <Typography>{TG?.initDataUnsafe?.user?.username}</Typography>
         {rawAddress ? (
           <Button variant="contained" size="small">
             {rawAddress}
@@ -58,20 +58,6 @@ export const App = () => {
         ) : (
           <TonConnectButton />
         )}
-      </Stack>
-      <Stack direction="row" gap="20px">
-        <Stack
-          direction="row"
-          sx={{ background: "gray", width: "405", borderRadius: "10px", padding: "10px" }}
-          alignItems="center"
-          justifyContent="space-between"
-        >
-          <Typography> Profit per hour</Typography>
-          <Stack direction="row" alignItems="center" gap="5px">
-            <Typography>134</Typography>
-            <ChildCareIcon />
-          </Stack>
-        </Stack>
       </Stack>
     </Stack>
   );
