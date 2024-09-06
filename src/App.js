@@ -49,9 +49,9 @@ export const App = () => {
   }, []);
 
   return (
-    <Stack>
+    <Stack sx={{ backgroundColor: "white" }}>
       <Stack direction="row" alignItems="center" justifyContent="space-between" gap="20px">
-        <Typography sx={{ color: "white" }}>{TG?.initDataUnsafe?.user?.username}</Typography>
+        <Typography sx={{ color: "black" }}>{TG?.initDataUnsafe?.user?.username}</Typography>
         {rawAddress ? (
           <Button
             variant="contained"
