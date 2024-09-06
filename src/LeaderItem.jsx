@@ -1,4 +1,4 @@
-import { Avatar, Stack, Typography } from "@mui/material";
+import {  Stack, Typography } from "@mui/material";
 export const LeaderItem = ({ leader,idx }) => {
   const colors=["#30fe35","#3462ff","#ff3262","#fe3752"]
 
