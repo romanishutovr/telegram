@@ -49,7 +49,7 @@ export const App = () => {
   }, []);
 
   return (
-    <Stack sx={{ backgroundColor: "white" }}>
+    <Stack sx={{ backgroundColor: "white", padding: "10px", height: "100vh" }}>
       <Stack direction="row" alignItems="center" justifyContent="space-between" gap="20px">
         <Typography sx={{ color: "black" }}>{TG?.initDataUnsafe?.user?.username}</Typography>
         {rawAddress ? (
