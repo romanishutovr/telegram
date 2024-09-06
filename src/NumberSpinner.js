@@ -19,7 +19,7 @@ export const NumberSpinner = ({ targetNumber = 5, speed = 20, claim }) => {
     }
 
     return () => clearInterval(interval);
-  }, [currentNumber, spinning, targetNumber, speed]);
+  }, [currentNumber, spinning, targetNumber, speed, claim]);
 
   const startSpinning = () => {
     setSpinning(true);
